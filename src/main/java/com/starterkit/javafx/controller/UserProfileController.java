@@ -102,6 +102,7 @@ public class UserProfileController {
 		((Stage) cancelButton.getScene().getWindow()).close();
 	}
 
+	// REV: bardziej pasowalaby nazwa setUser
 	public void getUser(UserProfileVO user) {
 
 		id = user.getId();

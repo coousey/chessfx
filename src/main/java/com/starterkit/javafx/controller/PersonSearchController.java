@@ -121,6 +121,7 @@ public class PersonSearchController {
 			return;
 		}
 		try {
+			// REV: moznaby utworzyc okno w konstruktorze
 			Stage stage = new Stage();
 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/starterkit/javafx/view/user-profile.fxml"),
@@ -139,6 +140,7 @@ public class PersonSearchController {
 
 			stage.show();
 		} catch (Exception e) {
+			// REV: zawsze uzywaj loggera
 			e.printStackTrace();
 		}
 	}

@@ -23,19 +23,22 @@ public class UserDataProviderImpl implements UserDataProvider {
 	public Collection<UserProfileVO> findUserProfiles(String login, String firstName, String lastName) {
 		String output = null;
 
+		// REV: te obiekty powinny byc utworzone tylko raz
 		Client client = Client.create();
-
+		// REV: adres powinien byc pobrany z konfiguracji
 		WebResource webResource = client.resource("http://localhost:8090/user/search").queryParam("login", login)
 				.queryParam("name", firstName).queryParam("surname", lastName);
 
 		ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
 
+		// REV: Jersey sprawdza status i rzuca wyjatki
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
 
 		output = response.getEntity(String.class);
 
+		// REV: nie ma potrzeby uzywania GSONa, Jersey potrafi mapowac obiekty
 		Type token = new TypeToken<Collection<UserProfileVO>>() {
 		}.getType();
 
@@ -45,13 +48,14 @@ public class UserDataProviderImpl implements UserDataProvider {
 	@Override
 	public void saveUserProfile(UserProfileVO user) {
 
+		// REV: j.w.
 		Client client = Client.create();
-
+		// REV: j.w.
 		WebResource webResource = client.resource("http://localhost:8090/user");
 
 		ClientResponse response = webResource.accept("application/json").type("application/json")
 				.put(ClientResponse.class, new Gson().toJson(user, UserProfileVO.class));
-
+		// REV: j.w.
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
@@ -59,13 +63,15 @@ public class UserDataProviderImpl implements UserDataProvider {
 
 	@Override
 	public void deleteUserProfile(Long id) {
-
+		
+		// REV: j.w.
 		Client client = Client.create();
-
+		// REV: j.w.
 		WebResource webResource = client.resource("http://localhost:8090/user/" + id);
 
 		ClientResponse response = webResource.accept("application/json").delete(ClientResponse.class);
-
+		
+		// REV: j.w.
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 		}
